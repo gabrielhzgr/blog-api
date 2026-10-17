@@ -39,6 +39,8 @@ model Comment {
 
 model User {
   id       String    @id @default(uuid())
+  username String    @unique
+  password String
   createAt DateTime  @default(now())
   role     Role      @default(VIEWER)
   Comments Comment[]
