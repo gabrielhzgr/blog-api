@@ -1,7 +1,6 @@
 import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
 const __dirname = import.meta.dirname;
 const pathPriv = path.join(__dirname, "id_rsa_pub.pem");
 const pathPub = path.join(__dirname, "id_rsa_priv.pem");
