@@ -28,6 +28,8 @@ router.delete("/", isAuthenticated, isEditor, async (req, res) => {
 
 router.post("/login", async function (req, res) {
   try {
+    console.log(req.body);
+
     const { username, password } = req.body;
     const user = await prisma.user.findFirst({ where: { username } });
 
