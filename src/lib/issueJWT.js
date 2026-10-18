@@ -12,7 +12,7 @@ function issueJWT(user) {
   );
   const iat = Date.now();
   const expiresIn = "7d";
-  const PRIV_KEY = fs.readFileSync(pathToKey);
+  const PRIV_KEY = fs.readFileSync(pathToKey, "utf8");
   const token = jwt.sign({ sub: user.id, iat }, PRIV_KEY, {
     algorithm: "RS256",
     expiresIn,
