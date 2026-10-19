@@ -38,7 +38,7 @@ router.post("/login", async function (req, res) {
     const isValid = await bcrypt.compare(password, user.password);
     if (isValid) {
       const { token, expiresIn, iat } = issueJWT(user);
-      return res.json({ user, token, iat, expiresIn });
+      return res.json({ user, token: { token, iat, expiresIn } });
     } else {
       throw new errors.NotValidInput("The password is incorrect");
     }
