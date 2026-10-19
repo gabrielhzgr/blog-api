@@ -25,7 +25,7 @@ const PUB_KEY = fs.readFileSync(pathToKey, "utf8");
 
 const opts = {};
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
-opts.secretOrKey = PUB_KEY;
+opts.secretOrKey = process.env["PUB_KEY"];
 opts.algorithms = ["RS256"];
 
 passport.use(
