@@ -60,7 +60,7 @@ app.use((err, req, res, next) => {
   const message = err.statusCode ? err.message : "Internal server error";
   const name = err.statusCode ? err.name : "Internal Server error";
   console.log(err);
-  res.status(statusCode).json({ error: message, type: name });
+  res.status(statusCode).json({ error: message, name });
 });
 
 // === Init app ===
