@@ -6,8 +6,14 @@ import errors from "../errors/index.js";
 const router = express.Router();
 
 router.get("/", async (req, res) => {
-  const posts = await prisma.post.findMany();
-  res.json(posts);
+  try {
+    const { page, limit } = req.query;
+    const skip = (page - 1) * limit;
+    const posts = await prisma.post.findMany({ skip, take: limit });
+    res.json(posts);
+  } catch (err) {
+    throw err;
+  }
 });
 
 router.get("/:id", async (req, res) => {
