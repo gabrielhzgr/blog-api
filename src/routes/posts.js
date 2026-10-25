@@ -7,14 +7,16 @@ const router = express.Router();
 
 router.get("/", async (req, res) => {
   try {
-    const { page, limit } = req.query;
+    let { page, limit } = req.query;
+    page = Number(page);
+    limit = Number(limit);
     const skip = (page - 1) * limit;
-    const [posts, count] = await prisma.$transaction([
+    const [count, posts] = await prisma.$transaction([
       prisma.post.count(),
       prisma.post.findMany({ skip, take: limit }),
     ]);
 
-    res.json({ posts, count });
+    res.json({ count, posts });
   } catch (err) {
     throw err;
   }
