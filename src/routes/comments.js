@@ -25,7 +25,7 @@ router.post("/", isAuthenticated, async (req, res) => {
   try {
     const data = req.body;
     const comment = await prisma.comment.create({ data });
-    res.json(comment);
+    res.json({ comment });
   } catch (err) {
     throw err;
   }
@@ -36,7 +36,7 @@ router.put("/:id", isAuthenticated, isOwner, async (req, res) => {
     const { id } = req.params;
     const data = req.body;
     const comment = await prisma.comment.update({ where: { id }, data });
-    res.json(comment);
+    res.json({ comment });
   } catch (err) {
     throw err;
   }
@@ -46,7 +46,7 @@ router.delete("/:id", isAuthenticated, isOwner, async (req, res) => {
   try {
     const { id } = req.params;
     const comment = await prisma.comment.delete({ where: { id } });
-    res.json(comment);
+    res.json({ comment });
   } catch (err) {
     throw err;
   }
@@ -60,7 +60,7 @@ router.get("/:id/replies", async (req, res) => {
       include: { replies: true },
     });
     const replies = comment.replies;
-    res.json(replies);
+    res.json({ replies });
   } catch (err) {
     throw err;
   }

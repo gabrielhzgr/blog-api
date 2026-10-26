@@ -11,7 +11,7 @@ const router = express.Router();
 router.get("/", isAuthenticated, isEditor, async (req, res) => {
   try {
     const users = await prisma.user.findMany();
-    res.json(users);
+    res.json({ users });
   } catch (err) {
     throw err;
   }
@@ -20,7 +20,7 @@ router.get("/", isAuthenticated, isEditor, async (req, res) => {
 router.delete("/", isAuthenticated, isEditor, async (req, res) => {
   try {
     const users = await prisma.user.deleteMany();
-    res.json(users);
+    res.json({ users });
   } catch (err) {
     throw err;
   }
