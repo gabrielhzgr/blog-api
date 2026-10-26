@@ -13,15 +13,15 @@ datasource db {
 }
 
 model Post {
-  id        String   @id @default(uuid())
-  title     String
-  content   String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  author    User     @relation(fields: [authorId], references: [id])
-  authorId  String
-
-  comments Comment[]
+  id          String    @id @default(uuid())
+  title       String
+  content     String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  author      User      @relation(fields: [authorId], references: [id])
+  authorId    String
+  isPublished Boolean   @default(false)
+  comments    Comment[]
 }
 
 model Comment {
