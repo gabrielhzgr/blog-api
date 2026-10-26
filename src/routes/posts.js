@@ -13,7 +13,11 @@ router.get("/", async (req, res) => {
     const skip = (page - 1) * limit;
     const [count, posts] = await prisma.$transaction([
       prisma.post.count(),
-      prisma.post.findMany({ skip, take: limit }),
+      prisma.post.findMany({
+        select: { id: true, title: true },
+        skip,
+        take: limit,
+      }),
     ]);
 
     res.json({ posts });
