@@ -16,7 +16,7 @@ router.get("/", async (req, res) => {
       prisma.post.findMany({ skip, take: limit }),
     ]);
 
-    res.json({ count, posts });
+    res.json(posts);
   } catch (err) {
     throw err;
   }
