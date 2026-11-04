@@ -76,19 +76,11 @@ router.get("/:id/comments", async (req, res) => {
   }
 });
 
-router.post("/:id/comments", async (req, res) => {
+router.post("/:id/comments", isAuthenticated, async (req, res) => {
   try {
-    const { id } = req.params;
-    let { page, limit } = req.query;
-    page = Number(page);
-    limit = Number(limit);
-    const skip = (page - 1) * limit;
-    const comments = await prisma.comment.findMany({
-      where: { postId: id },
-      skip,
-      take: limit,
-    });
-    res.json({ comments });
+    const data = req.body;
+    const comment = await prisma.comment.create({ data });
+    res.json({ comment });
   } catch (err) {
     throw err;
   }

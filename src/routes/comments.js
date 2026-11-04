@@ -21,16 +21,6 @@ const isOwner = async (req, res, next) => {
   }
 };
 
-router.post("/", isAuthenticated, async (req, res) => {
-  try {
-    const data = req.body;
-    const comment = await prisma.comment.create({ data });
-    res.json({ comment });
-  } catch (err) {
-    throw err;
-  }
-});
-
 router.put("/:id", isAuthenticated, isOwner, async (req, res) => {
   try {
     const { id } = req.params;
