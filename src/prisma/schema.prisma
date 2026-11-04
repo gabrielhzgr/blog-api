@@ -28,8 +28,8 @@ model Comment {
   id              String    @id @default(uuid())
   createAt        DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
-  username        String
-  content         String
+  user            User      @relation(fields: [userId], references: [id])
+  userId          String
   parentPost      Post      @relation(fields: [postId], references: [id])
   postId          String
   parentCommentId String?   @unique
@@ -38,12 +38,13 @@ model Comment {
 }
 
 model User {
-  id       String   @id @default(uuid())
-  username String   @unique
+  id       String    @id @default(uuid())
+  username String    @unique
   password String
-  createAt DateTime @default(now())
-  role     Role     @default(VIEWER)
+  createAt DateTime  @default(now())
+  role     Role      @default(VIEWER)
   Posts    Post[]
+  Comments Comment[]
 }
 
 enum Role {
