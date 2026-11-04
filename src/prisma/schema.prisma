@@ -29,6 +29,7 @@ model Comment {
   createAt        DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
   username        String
+  content         String
   parentPost      Post      @relation(fields: [postId], references: [id])
   postId          String
   parentCommentId String?   @unique
