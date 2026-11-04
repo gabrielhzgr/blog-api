@@ -58,10 +58,18 @@ router.delete("/:id", isAuthenticated, isEditor, async (req, res) => {
   }
 });
 
-router.get("/:id/comments", (req, res) => {
+router.get("/:id/comments", async (req, res) => {
   try {
     const { id } = req.params;
-    let comments = prisma.comment.findMany({ where: { postId: id } });
+    let { page, limit } = req.query;
+    page = Number(page);
+    limit = Number(limit);
+    const skip = (page - 1) * limit;
+    const comments = await prisma.comment.findMany({
+      where: { postId: id },
+      skip,
+      take: limit,
+    });
     res.json({ comments });
   } catch (err) {
     throw err;
