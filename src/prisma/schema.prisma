@@ -35,6 +35,7 @@ model Comment {
   parentCommentId String?   @unique
   parentComment   Comment   @relation("Replies", fields: [id], references: [parentCommentId])
   replies         Comment[] @relation("Replies")
+  content         String
 }
 
 model User {
