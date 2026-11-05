@@ -32,10 +32,10 @@ model Comment {
   userId          String
   parentPost      Post      @relation(fields: [postId], references: [id])
   postId          String
-  parentCommentId String?   @unique
-  parentComment   Comment   @relation("Replies", fields: [id], references: [parentCommentId])
-  replies         Comment[] @relation("Replies")
   content         String
+  parentCommentId String?
+  parentComment   Comment?  @relation("CommentReplies", fields: [parentCommentId], references: [id])
+  replies         Comment[] @relation("CommentReplies")
 }
 
 model User {
