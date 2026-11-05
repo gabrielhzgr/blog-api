@@ -28,7 +28,7 @@ router.delete("/", isAuthenticated, isEditor, async (req, res) => {
 
 router.post("/signin", async function (req, res, next) {
   try {
-    const { username, password } = req.body;
+    const { username } = req.body;
     const user = await prisma.user.findFirst({ where: { username } });
 
     if (!user) {
@@ -74,7 +74,7 @@ router.post("/signup", async (req, res) => {
       },
     });
     const { token, iat, expiresIn } = issueJWT(user);
-    res.json({ user, token, iat, expiresIn });
+    return res.json({ user, token: { token, iat, expiresIn } });
   } catch (err) {
     throw err;
   }
