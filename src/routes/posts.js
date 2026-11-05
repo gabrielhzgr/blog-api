@@ -67,6 +67,7 @@ router.get("/:id/comments", async (req, res) => {
     const skip = (page - 1) * limit;
     const comments = await prisma.comment.findMany({
       where: { postId: id },
+      include: { user: true },
       skip,
       take: limit,
     });
