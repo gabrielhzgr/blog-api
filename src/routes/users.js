@@ -32,9 +32,9 @@ router.post("/signin", async function (req, res, next) {
     const user = await prisma.user.findFirst({ where: { username } });
 
     if (!user) {
-      req.redirect("signup");
+      res.redirect(307, "signup");
     } else {
-      req.redirect("login");
+      res.redirect(307, "login");
     }
   } catch (err) {
     throw err;
@@ -60,7 +60,6 @@ router.post("/login", async function (req, res) {
   } catch (err) {
     throw err;
   }
-  res.send();
 });
 
 router.post("/signup", async (req, res) => {
