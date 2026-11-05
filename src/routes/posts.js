@@ -80,7 +80,10 @@ router.get("/:id/comments", async (req, res) => {
 router.post("/:id/comments", isAuthenticated, async (req, res) => {
   try {
     const data = req.body;
-    const comment = await prisma.comment.create({ data });
+    const comment = await prisma.comment.create({
+      data,
+      include: { user: true },
+    });
     res.json({ comment });
   } catch (err) {
     throw err;
