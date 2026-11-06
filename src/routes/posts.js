@@ -79,9 +79,10 @@ router.get("/:id/comments", async (req, res) => {
 
 router.post("/:id/comments", isAuthenticated, async (req, res) => {
   try {
+    const { id } = req.params;
     const data = req.body;
     const comment = await prisma.comment.create({
-      data,
+      data: { ...data, postId: id },
       include: { user: true },
     });
     res.json({ comment });

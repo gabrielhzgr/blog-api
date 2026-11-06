@@ -45,11 +45,15 @@ router.delete("/:id", isAuthenticated, isOwner, async (req, res) => {
 router.get("/:id/replies", async (req, res) => {
   try {
     const { id } = req.params;
-    const comment = await prisma.comment.findFirst({
-      where: { id },
-      include: { replies: true },
+    let { page, limit } = req.query;
+    page = Number(page);
+    limit = Number(limit);
+    const skip = (page - 1) * limit;
+    const replies = await prisma.comment.findMany({
+      where: { parentCommentId: id },
+      skip,
+      take: limit,
     });
-    const replies = comment.replies;
     res.json({ replies });
   } catch (err) {
     throw err;
