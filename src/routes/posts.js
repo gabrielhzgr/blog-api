@@ -5,31 +5,48 @@ import errors from "../errors/index.js";
 
 const router = express.Router();
 
-router.get("/", async (req, res) => {
+const getPostsAsEditor = (req, res, next) => {
+  if (req.query && req.query.role.toLowerCase() == "editor") {
+    return next("route");
+  } else {
+    return next();
+  }
+};
+
+router.get("/", getPostsAsEditor, async (req, res) => {
   try {
     let { page, limit } = req.query;
     page = Number(page ?? 1);
     limit = Number(limit ?? 10);
     const skip = (page - 1) * limit;
 
-    if (req.user && req.user.role == "editor") {
-      const posts = await prisma.post.findMany({
-        orderBy: { createdAt: "desc" },
-        select: { id: true, title: true },
-        skip,
-        take: limit,
-      });
-      return res.json({ posts });
-    } else {
-      const posts = await prisma.post.findMany({
-        where: { isPublished: true },
-        orderBy: { createdAt: "desc" },
-        select: { id: true, title: true },
-        skip,
-        take: limit,
-      });
-      return res.json({ posts });
-    }
+    const posts = await prisma.post.findMany({
+      where: { isPublished: true },
+      orderBy: { createdAt: "desc" },
+      select: { id: true, title: true },
+      skip,
+      take: limit,
+    });
+    return res.json({ posts });
+  } catch (err) {
+    throw err;
+  }
+});
+
+router.get("/", isAuthenticated, isEditor, async (req, res) => {
+  try {
+    let { page, limit } = req.query;
+    page = Number(page ?? 1);
+    limit = Number(limit ?? 10);
+    const skip = (page - 1) * limit;
+
+    const posts = await prisma.post.findMany({
+      orderBy: { createdAt: "desc" },
+      select: { id: true, title: true },
+      skip,
+      take: limit,
+    });
+    return res.json({ posts });
   } catch (err) {
     throw err;
   }
