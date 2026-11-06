@@ -80,7 +80,7 @@ router.get("/:id/comments", async (req, res) => {
     const skip = (page - 1) * limit;
     const comments = await prisma.comment.findMany({
       where: { postId: id, parentCommentId: null },
-      orderBy: { createAt: "desc" },
+      orderBy: { createdAt: "desc" },
       include: { user: true },
       skip,
       take: limit,
