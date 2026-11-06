@@ -46,11 +46,12 @@ router.get("/:id/replies", async (req, res) => {
   try {
     const { id } = req.params;
     let { page, limit } = req.query;
-    page = Number(page);
-    limit = Number(limit);
+    page = page = Number(page ?? 1);
+    limit = Number(limit ?? 10);
     const skip = (page - 1) * limit;
     const replies = await prisma.comment.findMany({
       where: { parentCommentId: id },
+      include: { user: true },
       skip,
       take: limit,
     });
