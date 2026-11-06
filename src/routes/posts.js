@@ -11,13 +11,25 @@ router.get("/", async (req, res) => {
     page = Number(page ?? 1);
     limit = Number(limit ?? 10);
     const skip = (page - 1) * limit;
-    const posts = await prisma.post.findMany({
-      orderBy: { createAt: "desc" },
-      select: { id: true, title: true },
-      skip,
-      take: limit,
-    });
-    res.json({ posts });
+
+    if (user && user.role == "editor") {
+      const posts = await prisma.post.findMany({
+        orderBy: { createAt: "desc" },
+        select: { id: true, title: true },
+        skip,
+        take: limit,
+      });
+      return res.json({ posts });
+    } else {
+      const posts = await prisma.post.findMany({
+        where: { isPublished: true },
+        orderBy: { createAt: "desc" },
+        select: { id: true, title: true },
+        skip,
+        take: limit,
+      });
+      return res.json({ posts });
+    }
   } catch (err) {
     throw err;
   }
