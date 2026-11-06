@@ -12,9 +12,9 @@ router.get("/", async (req, res) => {
     limit = Number(limit ?? 10);
     const skip = (page - 1) * limit;
 
-    if (user && user.role == "editor") {
+    if (req.user && req.user.role == "editor") {
       const posts = await prisma.post.findMany({
-        orderBy: { createAt: "desc" },
+        orderBy: { createdAt: "desc" },
         select: { id: true, title: true },
         skip,
         take: limit,
@@ -23,7 +23,7 @@ router.get("/", async (req, res) => {
     } else {
       const posts = await prisma.post.findMany({
         where: { isPublished: true },
-        orderBy: { createAt: "desc" },
+        orderBy: { createdAt: "desc" },
         select: { id: true, title: true },
         skip,
         take: limit,
