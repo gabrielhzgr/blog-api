@@ -8,8 +8,8 @@ const router = express.Router();
 router.get("/", async (req, res) => {
   try {
     let { page, limit } = req.query;
-    page = Number(page);
-    limit = Number(limit);
+    page = Number(page ?? 1);
+    limit = Number(limit ?? 10);
     const skip = (page - 1) * limit;
     const posts = await prisma.post.findMany({
       select: { id: true, title: true },
@@ -62,8 +62,8 @@ router.get("/:id/comments", async (req, res) => {
   try {
     const { id } = req.params;
     let { page, limit } = req.query;
-    page = Number(page);
-    limit = Number(limit);
+    page = Number(page ?? 1);
+    limit = Number(limit ?? 10);
     const skip = (page - 1) * limit;
     const comments = await prisma.comment.findMany({
       where: { postId: id },
