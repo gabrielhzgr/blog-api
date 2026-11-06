@@ -6,7 +6,8 @@ import errors from "../errors/index.js";
 const router = express.Router();
 
 const getPostsAsEditor = (req, res, next) => {
-  if (req.query && req.query.role.toLowerCase() == "editor") {
+  const { role } = req.query;
+  if (role && role.toLowerCase() == "editor") {
     return next("route");
   } else {
     return next();
